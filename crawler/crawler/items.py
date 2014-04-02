@@ -13,4 +13,3 @@ class CrawlerItem(Item):
     address = Field()
     rooms = Field()
     area = Field()
-    extra = Field()
