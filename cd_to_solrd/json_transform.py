@@ -9,4 +9,7 @@ import sys
 
 def json_transform(json_insides):
     """Transformation of Json into another Json preferred by Solr."""
-    return ""
+    insides = json_insides.replace('" ','"')
+    insides = insides.replace('\\n','3ekBXfPdoceTmC58QFez')
+    insides = insides.decode('unicode_escape')
+    return insides.replace('3ekBXfPdoceTmC58QFez', '\\n')
