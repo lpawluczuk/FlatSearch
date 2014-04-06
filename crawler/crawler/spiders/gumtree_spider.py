@@ -18,6 +18,7 @@ class GumtreeSpider(CrawlSpider):
         sel = Selector(response)
         ad = CrawlerItem()
         ad['title'] = sel.xpath("//h1[@id='preview-local-title']/text()").extract()[1] #.encode('utf-8').encode('string_escape')
+        ad['url'] = response.url
 
         # parsowanie opisu
         description = ""
