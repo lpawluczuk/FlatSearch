@@ -10,11 +10,9 @@ import re
 class GumtreeSpider(CrawlSpider):
     name = "gumtree"
     allowed_domains = ["gumtree.pl"]
-    # może dodać, że cchemy tylko oferty wynajmę, a nie poszukuję?
-    start_urls = ['http://www.gumtree.pl/fp-mieszkania-i-domy-do-wynajecia/c9008?Page=1'] 
+    start_urls = ['http://www.gumtree.pl/fp-mieszkania-i-domy-do-wynajecia/c9008?AdType=2&Page=1'] 
     rules = [Rule(SgmlLinkExtractor(allow=['\?Page=\d+'], restrict_xpaths=('//a[@class="prevNextLink"]')), follow=True),
         Rule(SgmlLinkExtractor(restrict_xpaths=('//div[@class="ar-title"]')), 'parse_ad', follow=True)]
-
 
     def parse_ad(self, response):
         sel = Selector(response)
