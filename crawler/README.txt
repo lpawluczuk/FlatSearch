@@ -1,1 +1,5 @@
-To run crawler call: scrapy crawl gumtree
+To run crawler call: 
+
+scrapy crawl gumtree
+scrapy crawl tablica
+
