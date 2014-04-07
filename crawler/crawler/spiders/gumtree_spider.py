@@ -5,8 +5,6 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
 from crawler.items import CrawlerItem
 
-import re
-
 class GumtreeSpider(CrawlSpider):
     name = "gumtree"
     allowed_domains = ["gumtree.pl"]
@@ -35,13 +33,14 @@ class GumtreeSpider(CrawlSpider):
         # parsowanie niepodpisanej tabeli
         for i in range(len(attributes)):
             if "Data dodania" in attributes[i]:
-                ad['date'] = re.sub('\r\n', '', attributes[i+1])
+                
+                ad['date'] = attributes[i+1].strip()
             elif "Cena" in attributes[i]:
-                ad['price'] = re.sub('\r\n', '', attributes[i+1])
+                ad['price'] = attributes[i+1].strip()
             elif "Adres" in attributes[i]:
-                ad['address'] = re.sub('\r\n', '', attributes[i+1])
+                ad['address'] = attributes[i+1].strip()
             elif "pokoi" in attributes[i]:
-                ad['rooms'] = re.sub('\r\n', '', attributes[i+1])
+                ad['rooms'] = attributes[i+1].strip()
             elif "Wielko" in attributes[i]:
-                ad['area'] = re.sub('\r\n', '', attributes[i+1])
+                ad['area'] = attributes[i+1].strip()
         return ad
