@@ -10,7 +10,7 @@ import re
 class TablicaSpider(CrawlSpider):
     name = "tablica"
     allowed_domains = ["tablica.pl"]
-    start_urls = ['http://tablica.pl/nieruchomosci/mieszkania/wynajem/?page=1'] 
+    start_urls = ['http://tablica.pl/nieruchomosci/mieszkania/wynajem/?page=1', 'http://tablica.pl/nieruchomosci/domy/wynajem/?page=1']
     rules = [Rule(SgmlLinkExtractor(allow=['\?page=\d+'], restrict_xpaths=('//span[@class="fbold next abs large"]/a')), follow=True),
         Rule(SgmlLinkExtractor(restrict_xpaths=('//a[@class="link linkWithHash detailsLink {clickerID:\'ads_title\'}"]')), 'parse_ad', follow=True)]
 
@@ -29,7 +29,12 @@ class TablicaSpider(CrawlSpider):
             description += line + "\n"
         ad['desc'] = description
         ad['address'] = sel.xpath("//div[@class='address fleft marginleft15']//p//text()").extract()[0].strip()
-        ad['price'] = sel.xpath("//strong[@class='xxxx-large margintop7 block not-arranged']//text()").extract()[0].strip()
+        
+        potentialPrice = sel.xpath("//strong[@class='xxxx-large margintop7 block not-arranged']//text()").extract()
+        if len(potentialPrice) == 0:
+            potentialPrice = sel.xpath("//strong[@class='xxxx-large margintop7 block arranged']//text()").extract()
+
+        ad['price'] = potentialPrice[0].strip()
         ad['date'] = re.sub('\s+', ' ', sel.xpath("//span[@class='pdingleft10 brlefte5']//text()").extract()[0].strip())
         
         attributes = sel.xpath("//tr[@class='brbottdashc8']//text()").extract()
