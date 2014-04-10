@@ -12,7 +12,7 @@ def send_file_to_solr(content, solr_core_address):
     s = solr.Solr(solr_core_address)
 
     jsons = json.loads(content)
-    s.add_many(jsons)
+    # s.add_many(jsons)
 
-    # for ad in jsons:
-    #     s.add(ad)
+    for ad in jsons:
+        s.add(ad)
