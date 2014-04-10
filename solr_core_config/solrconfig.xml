@@ -1710,7 +1710,7 @@
        uniqueness based on that anyway.  
        
     -->
-  <!--
+
      <updateRequestProcessorChain name="dedupe">
        <processor class="solr.processor.SignatureUpdateProcessorFactory">
          <bool name="enabled">true</bool>
@@ -1722,8 +1722,8 @@
        <processor class="solr.LogUpdateProcessorFactory" />
        <processor class="solr.RunUpdateProcessorFactory" />
      </updateRequestProcessorChain>
-    -->
-  
+
+
   <!-- Language identification
 
        This example update chain identifies the language of the incoming
