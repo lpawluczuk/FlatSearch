@@ -33,11 +33,11 @@ def edit_as_dict(insides):
             ad[u"price"] = re.sub("[^0123456789\.,]","",ad[u"price"])
         if u"rooms" in ad:
             ad[u"rooms"] = re.sub("[^0123456789\.,]","",ad[u"rooms"])
-        if u"date" in ad:
-            data = ad[u"date"].split(u".")
-            ad[u"_version_"] = long(data[2] + data[1] + data[0])
-        else:
-            ad[u"_version_"] = 0
+        # if u"date" in ad:
+        #     data = ad[u"date"].split(u".")
+        #     ad[u"_version_"] = long(data[2] + data[1] + data[0])
+        # else:
+        #     ad[u"_version_"] = 0
         if u"desc" in ad:
             ad[u"text"] = ad[u"desc"]
             del ad[u"desc"]

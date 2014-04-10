@@ -1038,17 +1038,18 @@
          updateRequestProcessorChains that can be used by name 
          on each Update Request
       -->
-    <!--
+    
        <lst name="defaults">
          <str name="update.chain">dedupe</str>
        </lst>
-       -->
+       
   </requestHandler>
 
   <!-- for back compat with clients using /update/json and /update/csv -->  
   <requestHandler name="/update/json" class="solr.UpdateRequestHandler">
         <lst name="defaults">
          <str name="stream.contentType">application/json</str>
+         <str name="update.chain">dedupe</str>
        </lst>
   </requestHandler>
   <requestHandler name="/update/csv" class="solr.UpdateRequestHandler">
@@ -1714,12 +1715,25 @@
      <updateRequestProcessorChain name="dedupe">
        <processor class="solr.processor.SignatureUpdateProcessorFactory">
          <bool name="enabled">true</bool>
-         <str name="signatureField">id</str>
+         <str name="signatureField">signature</str>
          <bool name="overwriteDupes">false</bool>
-         <str name="fields">name,features,cat</str>
+         <str name="fields">id, url</str>
          <str name="signatureClass">solr.processor.Lookup3Signature</str>
        </processor>
        <processor class="solr.LogUpdateProcessorFactory" />
+       <processor class="solr.RunUpdateProcessorFactory" />
+     </updateRequestProcessorChain>
+
+  <!-- UUID population
+
+       Population via solr.UUIDUpdateProcessorFactory . 
+       
+    -->
+
+     <updateRequestProcessorChain name="uuid">
+       <processor class="solr.UUIDUpdateProcessorFactory">
+         <str name="fieldName">id</str>
+       </processor>
        <processor class="solr.RunUpdateProcessorFactory" />
      </updateRequestProcessorChain>
 
