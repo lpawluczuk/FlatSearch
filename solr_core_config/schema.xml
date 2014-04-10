@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<schema>
+<types>
+<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+<fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+<fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+<fieldType name="text_pl" class="solr.TextField" positionIncrementGap="100">
+<!-- lots of details -->
+</fieldType> 
+<fieldType name="uuid" class="solr.UUIDField" indexed="true" /> 
+</types>
+<fields>
+<field name="id" type="uuid" indexed="true" stored="true" multiValued="false" required="true"/>
+<field name="title" type="string" indexed="true" stored="true" multiValued="false" />
+<field name="price" type="string" indexed="true" stored="true" multiValued="false" />
+<field name="area" type="string" indexed="true" stored="true" multiValued="false" />
+<field name="rooms" type="string" indexed="true" stored="true" multiValued="false" />
+<field name="address" type="string" indexed="true" stored="true" multiValued="false" />
+<field name="date" type="string" indexed="true" stored="true" multiValued="false" />
+<field name="url" type="string" indexed="true" stored="true" multiValued="false" />
+<field name="text" type="text_pl" indexed="true" stored="true" multiValued="false" />
+<field name="_version_" type="long" indexed="true" stored="true" multiValued="false" />
+</fields>
+</schema>
