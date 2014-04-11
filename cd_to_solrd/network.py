@@ -14,5 +14,11 @@ def send_file_to_solr(content, solr_core_address):
     jsons = json.loads(content)
     # s.add_many(jsons)
 
+    counter = 0
+
     for ad in jsons:
+        print ad
+        counter += 1
         s.add(ad)
+
+    return counter
