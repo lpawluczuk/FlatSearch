@@ -35,8 +35,7 @@ if __name__ == '__main__':
     elif len(sys.argv) == 4:
         if str(sys.argv[2])[1] == 'w':
             solr_server = str(sys.argv[3])
-            c = send_f(output, solr_server)
-            print c
+            print send_f(output, solr_server)
         else:
             print "ERROR! No -w in args!"
     else:

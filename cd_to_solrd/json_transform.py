@@ -40,6 +40,8 @@ def edit_as_dict(insides):
         if u"desc" in ad:
             ad[u"text"] = ad[u"desc"]
             del ad[u"desc"]
+        if u"_version_" not in ad:
+            ad[u"_version_"] = 0
         if len(ad[u"rooms"]) == 0:
             del ad[u"rooms"]
 
