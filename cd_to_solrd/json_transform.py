@@ -1,8 +1,6 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import files
-
 import json
 import md5
 import re

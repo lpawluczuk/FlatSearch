@@ -16,9 +16,10 @@ def send_file_to_solr(content, solr_core_address):
 
     counter = 0
 
+    # TODO: Figure out how to update data.
     for ad in jsons:
-        print ad
         counter += 1
         s.add(ad)
+        print str(counter) + " of " + len(jsons)
 
     return counter
