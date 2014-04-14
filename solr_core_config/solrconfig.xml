@@ -1717,7 +1717,7 @@
          <bool name="enabled">true</bool>
          <str name="signatureField">signature</str>
          <bool name="overwriteDupes">false</bool>
-         <str name="fields">id, url</str>
+         <str name="fields">text</str>
          <str name="signatureClass">solr.processor.Lookup3Signature</str>
        </processor>
        <processor class="solr.LogUpdateProcessorFactory" />
