@@ -1,33 +1,48 @@
-function on_data(data) {
-	$('#results').empty();
-	var docs = data.response.docs;
-	$.each(docs, function(i, item) {
-		$('#results').prepend($('<div>' + item.name + '</div>'));
-	});
-
-	var total = 'Found ' + docs.length + ' results';
-	$('#results').prepend('<div>' + total + '</div>');
-}
-
-function on_search() {
+function onSearch() {
+	
 	var query = $('#query').val();
 	if (query.length == 0) {
 		return;
 	}
+
+	query.replace(/\s+/g,'+');
 	
-	// to będzie trzeba zahashować
-	var url='http://109.173.222.224:8983/solr/select/?q='+query+'&version=2.2&start=0&rows=50&indent=on&wt=json&callback=?&json.wrf=on_data';
-	$.getJSON(url);
+	$.ajax({
+		type: 'GET',
+		url: 'http://109.173.222.224:8983/solr/collection1/select?q=text%3A*' + query + '*&wt=json&indent=true',
+		dataType: 'json',
+		success: function(data) {
+			appendResults(data.response.docs)
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("error: " + textStatus);    
+		}
+	})
 }
 
-function on_ready() {
-	$('#search').click(on_search);
+function onReady() {
+	$('#search').click(onSearch);
 	/* Hook enter to search */
 	$('body').keypress(function(e) {
 		if (e.keyCode == '13') {
-			on_search();
+			onSearch();
 		}
 	});
 }
 
-$(document).ready(on_ready);
+function appendResults(docs) {
+	console.log(docs);
+	$('#results').empty();
+
+	var total = 'Found ' + docs.length + ' results';
+	$('#results').append('<div>' + total + '</div><br/>');
+	
+	$.each(docs, function(i, item) {
+		$('#results').append($('<div>' + item.title + '</div>'));
+		$('#results').append($('<div>' + item.text + '</div><br/>'));
+	});
+
+
+}
+
+$(document).ready(onReady);
