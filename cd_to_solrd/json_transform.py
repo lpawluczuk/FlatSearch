@@ -37,6 +37,9 @@ def edit_as_dict(insides):
             ad[u"price"] = re.sub("[^0123456789\.,]","",ad[u"price"])
         if u"rooms" in ad:
             ad[u"rooms"] = re.sub("[^0123456789\.,]","",ad[u"rooms"])
+			#if puste
+			#regex  = re.compile(r"((\d)+ (.+){0,1}pok(oi|oj))")
+			#ad[u"rooms"] = regex.search(ad[u"text"])
         if u"desc" in ad:
             ad[u"text"] = ad[u"desc"]
             del ad[u"desc"]
