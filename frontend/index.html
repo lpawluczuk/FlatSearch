@@ -1,21 +1,66 @@
 <html>
 <head>
-    <title>Flat Searcher</title>
+    <title>Mieszkania</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
 	<script src="script.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="icon" type="image/jpg" href="house.png">
 </head>
 <body>
-    <h3>Wyszukiwarka ofert wynajmu mieszkań</h3>
 
-    Zapytanie: <input id="query" />
-	Lokalizacja: <input id="location" />
-	Liczba pokoi: <input id="rooms" />
-	Minimalna powierzchnia: <input id="area" />
-	Maksymalna cena: <input id="price" />
-    <button id="search">Szukaj</button>
-    <hr/>
+<div id="header">
+		<h3>Wyszukiwarka ofert wynajmu mieszkań</h3>
+		
+		<img id="houseImg" src="house.png" alt="house">
+		
+		<table id="searchOptions">
+			
+			<tr>
+				<td class="searchOption">
+					<p>Zapytanie:</p>
+					<input id="query" />
+				</td>
+				
+				<td class="searchOption">
+					<p>Lokalizacja:</p>
+					<input id="location" />
+				</td>	
+			</tr>
+			
+			<tr>	
+				<td class="searchOption">
+					<p>Min. powierzchnia:</p>
+					<input id="area" />
+				</td>
+				
+				<td class="searchOption">
+					<p>Maksymalna cena:</p>
+					<input id="price" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="searchOption">
+					<p>Liczba pokoi:</p> 
+					<select id="rooms">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+						<option>6</option>
+					</select>
+				</td>
+				
+				<td id="searchButtonContainer">
+					<button id="search">Szukaj</button>
+				</td>			
+			</tr>
+			
+		</table>
+	</div>
+
     <div id="results">
     </div>
 </body>
