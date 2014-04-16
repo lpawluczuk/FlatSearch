@@ -29,6 +29,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	background: #68C8C9;
 	font-family: Calibri;
 	line-height: 1;
 }
@@ -104,13 +105,47 @@ button:hover {
 
 #results {
 	background: #68C8C9;
-	height: 100%;
-	overflow: auto;
-	padding-top: 253px;
+	height: auto;
+	overflow: hidden;
+	padding-top: 280px;
 }
 
 #houseImg {
 	margin-left: 25%;
 	position: absolute;
 	width: 130px;
+}
+
+#resultInfo {
+	font-weight: bold;
+	text-align: center;
+}
+
+.result {
+	background: rgb(215, 230, 250);
+	height: auto;
+	margin: 15px auto;
+	overflow: hidden;
+	padding: 20px;
+	width: 1000px;
+}
+
+.resultTitle {
+	font-size: 18px;
+	font-weight: bold;
+	padding: 0px 0px 10px 0px;
+}
+
+.resultText {
+	line-height: 120%;
+}
+
+.resultLink {
+	color: rgb(59, 101, 138);
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.resultLink:hover {
+	text-decoration: underline;
 }
