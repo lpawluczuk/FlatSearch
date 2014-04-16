@@ -105,10 +105,12 @@ button:hover {
 #results {
 	background: #68C8C9;
 	height: 100%;
+	overflow: auto;
+	padding-top: 253px;
 }
 
 #houseImg {
 	margin-left: 25%;
 	position: absolute;
-	width: 10%;
+	width: 130px;
 }
