@@ -1,6 +1,6 @@
 #!/bin/bash
 
-scrapy crawl tablica --logfile=log-tablica.txt;
+scrapy crawl olx --logfile=log-olx.txt;
 scrapy crawl gumtree --logfile=log-gumtree.txt;
 scrapy crawl otodom --logfile=log-otodom.txt;
 scrapy crawl morizon --logfile=log-morizon.txt;

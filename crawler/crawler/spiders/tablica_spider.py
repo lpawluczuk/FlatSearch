@@ -8,16 +8,16 @@ from crawler.items import CrawlerItem
 import re
 
 class TablicaSpider(CrawlSpider):
-    name = "tablica"
-    allowed_domains = ["tablica.pl"]
-    start_urls = ['http://tablica.pl/nieruchomosci/mieszkania/wynajem/?page=1', 'http://tablica.pl/nieruchomosci/domy/wynajem/?page=1']
+    name = "olx"
+    allowed_domains = ["olx.pl"]
+    start_urls = ['http://olx.pl/nieruchomosci/mieszkania/wynajem/?page=1', 'http://olx.pl/nieruchomosci/domy/wynajem/?page=1']
     rules = [Rule(SgmlLinkExtractor(allow=['\?page=\d+'], restrict_xpaths=('//span[@class="fbold next abs large"]/a')), follow=True),
-        Rule(SgmlLinkExtractor(restrict_xpaths=('//a[@class="link linkWithHash detailsLink {clickerID:\'ads_title\'}"]')), 'parse_ad', follow=True)]
+        Rule(SgmlLinkExtractor(restrict_xpaths=('//a[@class="link linkWithHash detailsLink"]')), 'parse_ad', follow=True)]
 
     def parse_ad(self, response):
         sel = Selector(response)
         ad = CrawlerItem()
-        ad['title'] = sel.xpath("//div[@class='clr offerheadinner pding15']/h1/text()").extract()[0].strip()
+        ad['title'] = sel.xpath("//div[@class='clr offerheadinner pding15 pdingright20']/h1/text()").extract()[0].strip()
         ad['url'] = response.url
 
         # # parsowanie opisu
