@@ -140,6 +140,11 @@ button:hover {
 	line-height: 120%;
 }
 
+.resultAddress {
+	line-height: 120%;
+	margin-bottom: 10px;
+}
+
 .resultLink {
 	color: rgb(59, 101, 138);
 	font-weight: bold;

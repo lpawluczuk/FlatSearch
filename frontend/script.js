@@ -1,30 +1,67 @@
 function onSearch() {
 	
-	var query = $('#query').val(),
-		location = $('#query').val(),
+	var query = encodeURIComponent($('#query').val()),
+		location = encodeURIComponent($('#location').val()),
 		minArea = $('#area').val(),
 		maxPrice = $('#price').val(),
-		roomsNo = $('#rooms').val()
-		url = 'http://94.72.127.27:8983/solr/collection1/select?q=text%3A*';
+		roomsNo = $('#rooms').val(),
+		mode = '&mode=native';
+		end = '&wt=json&indent=true'
+		url = 'http://94.72.127.27:8983/solr/collection1/select?q=';
+		url2 = 'http://94.72.127.27/index.php?url=';
 	
+	if (roomsNo === 'dowolna') {
+		roomsNo = '';
+	}	
+
 	query.replace(/\s+/g,'+');
 	
 	if (query.length > 0) {
-		url += query + '*';
+		url += 'text%3A*' + query + '*';
 	}
 
 	if (location.length > 0) {
-		url += '%0Aaddress%3A*' + location + '*%0A';
-	}	
+		if (query.length > 0) { 
+			url += '+AND+'; 
+		}		
+		url += 'address%3A*' + location + '*%0A';
+	}
+
+	if (minArea.length > 0) {
+		if (query.length > 0 || location.length > 0) { 
+			url += '+AND+'; 
+		}			
+		url += 'area%3A%5B' + minArea + '+TO+*%5D%0A';
+	}
+
+	if (maxPrice.length > 0) {
+		if (query.length > 0 || location.length > 0 || minArea.length > 0) { 
+			url += '+AND+'; 
+		}	
+		url += 'price%3A%5B*+TO+' + maxPrice + '%5D%0A';
+	}
+
+	if (roomsNo.length > 0) {
+		if (query.length > 0 || location.length > 0 || minArea.length > 0 || maxPrice > 0) { 
+			url += '+AND+'; 
+		}	
+		url += 'rooms%3A' + roomsNo + '%0A%0A';
+	}
 	
-	url += '&wt=json&indent=true';
+	var temp = '&full_headers=1&full_status=1';
+	url += '&wt=json&indent=true' + mode;	
+
+	//url = encodeURI(url);
+	url = encodeURIComponent(url);
+	url = url2 + url;
 
 	$.ajax({
 		type: 'GET',
 		url: url,
 		dataType: 'json',
 		success: function(data) {
-			appendResults(data.response.docs, minArea, maxPrice, roomsNo)
+			console.log(data);
+			appendResults(data.contents.response.docs)
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("error: " + textStatus);    
@@ -43,7 +80,7 @@ function onReady() {
 	});
 }
 
-function appendResults(docs, minArea, maxPrice, roomsNo) {
+function appendResults(docs) {
 	
 	console.log(docs);
 	$('#results').empty();
@@ -51,24 +88,6 @@ function appendResults(docs, minArea, maxPrice, roomsNo) {
 
 	$.each(docs, function(i, item) {
 		
-		maxPrice = parseInt(maxPrice, 10);
-		if (maxPrice !== '' && parseInt(item.price, 10) > maxPrice) {
-			total--;
-			return;
-		}
-	
-		minArea = parseInt(minArea, 10);
-		if (minArea !== '' && parseInt(item.area, 10) < minArea) {
-			total--;
-			return;
-		}
-				
-		if (roomsNo !== 'dowolna') {
-			if (roomsNo !== item.rooms) {
-				total--;
-				return;
-			}
-		}
 				
 		$('#results').append($(
 		'<div class="result"><p class="resultTitle">' 
@@ -76,12 +95,14 @@ function appendResults(docs, minArea, maxPrice, roomsNo) {
 		+ item.area + ' m | ' 
 		+ item.price + ' zł | ' 
 		+ item.rooms + ' pokoje | <a href="' + item.url +' " class="resultLink">link</a></p>'
+		+ ' <p class="resultAddress">' 
+		+ item.address + '</p>'
 		+ ' <p class="resultText">' 
 		+ item.text + '</p></div>'));
 
 	});
 	
-	$('#results').prepend('<p id="resultInfo">Found ' + total + ' results</p><br/>');
+	$('#results').prepend('<p id="resultInfo">Liczba znalezionych ofert: ' + total + '</p><br/>');
 }
 
 $(document).ready(onReady);
