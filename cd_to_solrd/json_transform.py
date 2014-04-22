@@ -9,6 +9,7 @@ import sys
 import uuid
 
 from additional import only_numbers as num
+from additional import lower_string as low
 
 """ This file contains Json transformation methods used by a Flat Searcher. """
 
@@ -33,8 +34,10 @@ def edit_as_dict(insides):
         if u"url" in ad:
             m = md5.new(ad[u"url"])
             ad[u"id"] = str(uuid.UUID(m.hexdigest()))
+        if u"address" in ad:
+            ad[u"address"] = low(ad[u"address"])
         if u"desc" in ad:
-            ad[u"text"] = ad[u"desc"]
+            ad[u"text"] = ad[u"desc"].replace("\t", " ").replace("\\quot;", "").replace("\\'", "'")
             del ad[u"desc"]
         if u"area" in ad:
             ad[u"area"] = num(ad[u"area"])
