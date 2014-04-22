@@ -12,7 +12,8 @@ class TablicaSpider(CrawlSpider):
     allowed_domains = ["olx.pl"]
     start_urls = ['http://olx.pl/nieruchomosci/mieszkania/wynajem/?page=1', 'http://olx.pl/nieruchomosci/domy/wynajem/?page=1']
     rules = [Rule(SgmlLinkExtractor(allow=['\?page=\d+'], restrict_xpaths=('//span[@class="fbold next abs large"]/a')), follow=True),
-        Rule(SgmlLinkExtractor(restrict_xpaths=('//a[@class="link linkWithHash detailsLink"]')), 'parse_ad', follow=True)]
+        Rule(SgmlLinkExtractor(restrict_xpaths=('//a[@class="link linkWithHash detailsLink"]')), 'parse_ad', follow=True),
+        Rule(SgmlLinkExtractor(restrict_xpaths=('//a[@class="link linkWithHash detailsLinkPromoted"]')), 'parse_ad', follow=True)]
 
     def parse_ad(self, response):
         sel = Selector(response)
