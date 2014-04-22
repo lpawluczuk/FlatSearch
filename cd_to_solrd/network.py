@@ -13,8 +13,6 @@ def send_file_to_solr(content, solr_core_address):
     # Create a connection to a solr server
     s = solr.Solr(solr_core_address)
 
-    save(content, "kupa.txt")
-
     jsons = json.loads(content)
 
     counter = 0
