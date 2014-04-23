@@ -5,6 +5,16 @@ import re
 
 """ This file contains additional functions. """
 
+def found_city(address, url):
+    """ Return city from address with a help of url. """
+    page = url.split("/")[2].replace(u"www.", "").replace(u".pl", "")
+    if (page == u"gumtree" or page == u"regiodom"):
+        return address.split(u",")[1]
+    elif page == u"otodom":
+        return address.split(u"miejscowo")[1].split(u",")[0].split(u":")[1]
+    elif (page == u"olx" or page == u"morizon"):
+        return address.split(u",")[0]
+
 def lower_string(string):
     """ Polish string to lower case polish string. """
     string = string.lower()

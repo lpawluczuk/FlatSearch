@@ -8,8 +8,9 @@ import string
 import sys
 import uuid
 
-from additional import only_numbers as num
+from additionsl import found_city as city_found
 from additional import lower_string as low
+from additional import only_numbers as num
 
 # from files import save_file as save
 
@@ -53,13 +54,14 @@ def edit_as_dict(insides):
             ad[u"id"] = str(uuid.UUID(m.hexdigest()))
         if u"address" in ad:
             ad[u"address"] = low(ad[u"address"])
+            ad[u"city"] = city_found(ad[u"address"], ad[u"url"])
         if u"desc" in ad:
             ad[u"text"] = ad[u"desc"].replace("\\quot;", "").replace("\\'", "'")
             del ad[u"desc"]
         if u"area" in ad:
             ad[u"area"] = num(ad[u"area"])
         if u"price" in ad:
-            ad[u"price"] = num(ad[u"price"])
+            ad[u"price"] = int(num(ad[u"price"]))
         if u"rooms" in ad:
             ad[u"rooms"] = num(ad[u"rooms"])
             if len(ad[u"rooms"]) == 0:
