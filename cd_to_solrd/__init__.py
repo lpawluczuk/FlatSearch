@@ -27,8 +27,17 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         path = str(sys.argv[1])
     save_path = path + ".out"
+
+    print "Opening file " + path + " .."
+
     file_insides = open_f(path)
+
+    print "File opened!"
+
     output = transform(file_insides)
+
+    print "Input file transformation completed!"
+
     if len(sys.argv) == 3:
         save_path = str(sys.argv[2])
         save_f(output, save_path)

@@ -4,7 +4,7 @@
 import json
 import solr
 
-from files import save_file as save
+# from files import save_file as save
 
 """ This file contains logic of network connections. """
 
@@ -13,6 +13,7 @@ def send_file_to_solr(content, solr_core_address):
     # Create a connection to a solr server
     s = solr.Solr(solr_core_address)
 
+    # save(content, "debug_n.tmp")
     jsons = json.loads(content)
 
     counter = 0
