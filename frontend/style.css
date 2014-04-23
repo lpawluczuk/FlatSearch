@@ -160,3 +160,8 @@ button:hover {
 .resultLink:hover {
 	text-decoration: underline;
 }
+
+#moreButtonContainer {
+  margin: 20px auto;
+  width: 88px;
+}

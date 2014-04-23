@@ -1,21 +1,47 @@
+var page = 0,
+    url = '';
+
 function onSearch() {
-	
+  
+  composeURL();
+  page = 0;
+
+	$.ajax({
+		type: 'GET',
+		url: url,
+		dataType: 'json',
+		success: function(data) {
+			appendResults(data.contents.response, true)
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("error: " + textStatus);    
+		}
+	})
+  
+  $('body').scrollTop(0);
+  
+}
+
+function composeURL() {
+
 	var query = encodeURIComponent($('#query').val()),
-		location = encodeURIComponent($('#location').val()),
-		minArea = $('#area').val(),
-		maxPrice = $('#price').val(),
-		roomsNo = $('#rooms').val(),
-		mode = '&mode=native';
-		end = '&wt=json&indent=true'
-		url = 'http://94.72.127.27:8983/solr/collection1/select?q=';
-		url2 = 'http://94.72.127.27/index.php?url=';
-	
-	if (roomsNo === 'dowolna') {
+      location = encodeURIComponent($('#location').val()),
+      minArea = $('#area').val(),
+      maxPrice = $('#price').val(),
+      roomsNo = $('#rooms').val(),
+      mode = '&mode=native',
+      end = '&wt=json&indent=true',
+      proxy = 'http://94.72.127.27/index.php?url=';
+      
+  url = 'http://94.72.127.27:8983/solr/collection1/select?q=';
+  
+  if (roomsNo === 'dowolna') {
 		roomsNo = '';
 	}	
 
 	query.replace(/\s+/g,'+');
-	
+	location.replace(/\s+/g,'+');
+
 	if (query.length > 0) {
 		url += 'text%3A*' + query + '*';
 	}
@@ -24,7 +50,7 @@ function onSearch() {
 		if (query.length > 0) { 
 			url += '+AND+'; 
 		}		
-		url += 'address%3A*' + location + '*%0A';
+		url += 'city%3A*' + location + '*%0A';
 	}
 
 	if (minArea.length > 0) {
@@ -47,32 +73,31 @@ function onSearch() {
 		}	
 		url += 'rooms%3A' + roomsNo + '%0A%0A';
 	}
-	
-	var temp = '&full_headers=1&full_status=1';
-	url += '&wt=json&indent=true' + mode;	
 
-	//url = encodeURI(url);
-	url = encodeURIComponent(url);
-	url = url2 + url;
-
-	$.ajax({
-		type: 'GET',
-		url: url,
-		dataType: 'json',
-		success: function(data) {
-			console.log(data);
-			appendResults(data.contents.response.docs)
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("error: " + textStatus);    
-		}
-	})
-	
+	url = proxy + encodeURIComponent(url + '&rows=10&start=' + (page * 10) + '&wt=json&indent=true' + mode);
 }
 
 function onReady() {
 	$('#search').click(onSearch);
-	/* Hook enter to search */
+  
+  $('div').delegate('#more', 'click', function() {
+    
+    page++;
+    composeURL();
+    
+    $.ajax({
+      type: 'GET',
+      url: url,
+      dataType: 'json',
+      success: function(data) {
+        appendResults(data.contents.response, false)
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("error: " + textStatus);    
+      }
+    })    
+  });
+  
 	$('body').keypress(function(e) {
 		if (e.keyCode == '13') {
 			onSearch();
@@ -80,15 +105,18 @@ function onReady() {
 	});
 }
 
-function appendResults(docs) {
+function appendResults(docs, erase) {
 	
-	console.log(docs);
-	$('#results').empty();
-	var total = docs.length;
-
-	$.each(docs, function(i, item) {
-		
-				
+  var total = docs.numFound;
+  
+  if (erase) {
+    $('#results').empty();
+    $('#results').prepend('<p id="resultInfo">Liczba znalezionych ofert: ' + total + '</p><br/>');
+  } else {
+    $('#results').children().last().remove();
+  }
+  
+	$.each(docs.docs, function(i, item) {		
 		$('#results').append($(
 		'<div class="result"><p class="resultTitle">' 
 		+ item.title + '</p><p class="resultTitle">' 
@@ -101,8 +129,10 @@ function appendResults(docs) {
 		+ item.text + '</p></div>'));
 
 	});
-	
-	$('#results').prepend('<p id="resultInfo">Liczba znalezionych ofert: ' + total + '</p><br/>');
+  	  
+  if (total - (page * 10) > 10) {
+    $('#results').append('<div id="moreButtonContainer"><button id="more">Więcej</button></div>');
+  }
 }
 
 $(document).ready(onReady);
