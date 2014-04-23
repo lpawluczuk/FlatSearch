@@ -1,5 +1,7 @@
 var page = 0,
-    url = '';
+    url = '',
+    minArea,
+    maxPrice;
 
 function onSearch() {
   
@@ -24,15 +26,15 @@ function onSearch() {
 
 function composeURL() {
 
-	var query = encodeURIComponent($('#query').val()),
-      location = encodeURIComponent($('#location').val()),
-      minArea = $('#area').val(),
-      maxPrice = $('#price').val(),
+  var query = encodeURIComponent($('#query').val().toLowerCase()),
+      location = encodeURIComponent($('#location').val().toLowerCase()),
       roomsNo = $('#rooms').val(),
       mode = '&mode=native',
       end = '&wt=json&indent=true',
       proxy = 'http://94.72.127.27/index.php?url=';
-      
+  
+  minArea = $('#area').val(),
+  maxPrice = $('#price').val(),  
   url = 'http://94.72.127.27:8983/solr/collection1/select?q=';
   
   if (roomsNo === 'dowolna') {
@@ -111,12 +113,25 @@ function appendResults(docs, erase) {
   
   if (erase) {
     $('#results').empty();
-    $('#results').prepend('<p id="resultInfo">Liczba znalezionych ofert: ' + total + '</p><br/>');
   } else {
     $('#results').children().last().remove();
   }
   
-	$.each(docs.docs, function(i, item) {		
+	$.each(docs.docs, function(i, item) {
+
+
+		maxPrice = parseInt(maxPrice, 10);
+		if (maxPrice !== '' && parseInt(item.price, 10) > maxPrice) {
+			total--;
+			return;
+		}
+
+		minArea = parseInt(minArea, 10);
+		if (minArea !== '' && parseInt(item.area, 10) < minArea) {
+			total--;
+			return;
+		}  
+  
 		$('#results').append($(
 		'<div class="result"><p class="resultTitle">' 
 		+ item.title + '</p><p class="resultTitle">' 
@@ -129,8 +144,15 @@ function appendResults(docs, erase) {
 		+ item.text + '</p></div>'));
 
 	});
-  	  
-  if (total - (page * 10) > 10) {
+
+  if (erase) {
+    if($('#results').children('.result').length < 10) {
+      total = $('#results').children('.result').length;
+    }
+    $('#results').prepend('<p id="resultInfo">Liczba znalezionych ofert: ' + total + '</p><br/>');  
+  }
+  
+  if (total - (page * 10) > 10 && $('#results').children('.result').length >= 10) {
     $('#results').append('<div id="moreButtonContainer"><button id="more">Więcej</button></div>');
   }
 }
