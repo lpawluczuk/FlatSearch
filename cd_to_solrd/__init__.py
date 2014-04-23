@@ -27,17 +27,28 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         path = str(sys.argv[1])
     save_path = path + ".out"
+
+    print "Opening file " + path + " .."
+
     file_insides = open_f(path)
+
+    print "File opened!"
+
     output = transform(file_insides)
+
+    print "Input file transformation completed!"
+
     if len(sys.argv) == 3:
         save_path = str(sys.argv[2])
         save_f(output, save_path)
+        print "Success! Output file: " + save_path
     elif len(sys.argv) == 4:
         if str(sys.argv[2])[1] == 'w':
             solr_server = str(sys.argv[3])
-            print "Success! All " + str(send_f(output, solr_server)) +\
-                " ads sent to the server!"
+            mess = str(send_f(output, solr_server))
+            print "Success! All " + mess + " ads sent to the server!"
         else:
             print "ERROR! No -w in args!"
     else:
         save_f(output, save_path)
+        print "Success! Output file: " + save_path
