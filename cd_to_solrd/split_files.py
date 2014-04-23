@@ -16,7 +16,9 @@ if __name__ == '__main__':
     """To split big (over 10000 lines) input file:
     python split_files.py input_path.json
 
-    Output will be named input_path.0.json, input_path.1.json, etc."""
+    Output will be named input_path.0.json, input_path.1.json, etc.
+    Use only if there's always 10 lines per ad.
+    Bad for olx.pl or gumtree.pl ."""
 
     path = "sample.json"
     if len(sys.argv) > 1:

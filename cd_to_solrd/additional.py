@@ -8,7 +8,13 @@ import re
 def found_city(address, url):
     """ Return city from address with a help of url. """
     page = url.split("/")[2].replace(u"www.", "").replace(u".pl", "")
-    if (page == u"gumtree" or page == u"regiodom"):
+    if page == u"gumtree":
+        splitted = address.split(u",")
+        if len(splitted) > 2:
+            return splitted[1]
+        else:
+            return splitted[0]
+    elif page == u"regiodom":
         return address.split(u",")[1]
     elif page == u"otodom":
         return address.split(u"miejscowo")[1].split(u",")[0].split(u":")[1]
