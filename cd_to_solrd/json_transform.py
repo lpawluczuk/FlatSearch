@@ -61,7 +61,7 @@ def edit_as_dict(insides):
         if u"area" in ad:
             ad[u"area"] = num(ad[u"area"])
         if u"price" in ad:
-            ad[u"price"] = int(num(ad[u"price"]))
+            ad[u"price"] = num(ad[u"price"])
         if u"rooms" in ad:
             ad[u"rooms"] = num(ad[u"rooms"])
             if len(ad[u"rooms"]) == 0:
