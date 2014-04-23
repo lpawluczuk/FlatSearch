@@ -18,8 +18,7 @@
     <field name="area" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="rooms" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="address" type="string" indexed="true" stored="true" multiValued="false" />
-    <!-- Uncomment after adding city recognition.
-    <field name="city" type="string" indexed="true" stored="true" multiValued="false" /> -->
+    <field name="city" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="date" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="url" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="text" type="text_pl" indexed="true" stored="true" multiValued="false" />

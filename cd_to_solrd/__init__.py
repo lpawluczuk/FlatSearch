@@ -41,6 +41,7 @@ if __name__ == '__main__':
     if len(sys.argv) == 3:
         save_path = str(sys.argv[2])
         save_f(output, save_path)
+        print "Success! Output file: " + save_path
     elif len(sys.argv) == 4:
         if str(sys.argv[2])[1] == 'w':
             solr_server = str(sys.argv[3])
@@ -50,3 +51,4 @@ if __name__ == '__main__':
             print "ERROR! No -w in args!"
     else:
         save_f(output, save_path)
+        print "Success! Output file: " + save_path
